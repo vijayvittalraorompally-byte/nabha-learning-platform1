@@ -14,14 +14,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Show repo root (debug)
+        run: |
+          pwd
+          ls -la
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
+          # The caching line was removed because you don't have a lock file
+          # cache: 'npm'
 
-      - run: npm ci || npm install
+      - name: Install dependencies (try npm ci, fallback to npm install)
+        id: install
+        run: |
+          set -e
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ] || [ -f yarn.lock ]; then
+            echo "Lockfile found — running npm ci"
+            npm ci
+          else
+            echo "No lockfile found — running npm install"
+            npm install
+          fi
 
       - name: Build
         env:
@@ -29,7 +47,8 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload production-ready build files
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -38,7 +57,6 @@ jobs:
     needs: build
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Configure GitHub Pages
         id: deployment
