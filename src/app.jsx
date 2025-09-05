@@ -1,25 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import TeacherDashboard from "./pages/TeacherDashboard";
-import StudentHome from "./pages/StudentHome";
+// src/App.jsx
+import React from 'react'
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <div className="p-4">
-        <h1 className="text-xl font-bold text-blue-700">Nabha Learning Platform</h1>
-        <nav className="my-2">
-          <Link className="mr-4 text-blue-500" to="/teacher">Teacher</Link>
-          <Link className="text-green-500" to="/student">Student</Link>
-        </nav>
-        <Routes>
-          <Route path="/teacher" element={<TeacherDashboard />} />
-          <Route path="/student" element={<StudentHome />} />
-          <Route path="/" element={<p>Welcome! Choose Teacher or Student.</p>} />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+    <div className="min-h-screen bg-gray-50 p-6">
+      <header className="max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold">Nabha Learning Platform</h1>
+        <p className="text-sm text-gray-600 mt-1">PWA — offline-first MCQ learning for rural students.</p>
+      </header>
 
-export default App;
+      <main className="max-w-3xl mx-auto mt-6">
+        <p className="text-gray-700">This is the app shell. Replace with your pages/components.</p>
+      </main>
+    </div>
+  )
+}
