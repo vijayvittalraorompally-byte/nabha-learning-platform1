@@ -1,13 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import { registerSW } from "virtual:pwa-register";
+// src/main.jsx
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'     // must match the filename below exactly (App.jsx)
+import './index.css'            // optional, will import your CSS
 
-registerSW();
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
-);
+)
